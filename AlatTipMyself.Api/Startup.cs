@@ -40,7 +40,7 @@ namespace AlatTipMyself.Api
             services.AddScoped<IUserService, UserService>();
 
             services.AddCors(options => {
-                options.AddPolicy("sample", x => x.AllowAnyOrigin());
+                options.AddPolicy("sample", x => x.AllowAnyOrigin().AllowAnyHeader());
             });
         }
 

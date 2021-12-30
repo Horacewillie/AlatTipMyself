@@ -58,6 +58,8 @@ namespace AlatTipMyself.Api
 
             app.UseRouting();
 
+            app.UseCors("sample");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

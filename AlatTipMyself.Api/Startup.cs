@@ -38,6 +38,10 @@ namespace AlatTipMyself.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AlatTipMyself.Api", Version = "v1" });
             });
             services.AddScoped<IUserService, UserService>();
+
+            services.AddCors(options => {
+                options.AddPolicy("sample", x => x.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

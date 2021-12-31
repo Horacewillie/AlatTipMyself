@@ -11,5 +11,13 @@ namespace AlatTipMyself.Api.Services
         Task<IEnumerable<UserDetail>> GetUserDetails();
 
         Task<UserDetail> UserLogin(string email);
+
+        void CreateWallet(Wallet wallet);
+
+        Task<Wallet> UserWallet(string acctNum);
+
+        Task<bool> WalletExists(string accNum);
+
+        Task <bool> Save();
     }
 }

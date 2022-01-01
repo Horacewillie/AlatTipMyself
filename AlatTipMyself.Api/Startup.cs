@@ -1,5 +1,6 @@
 using AlatTipMyself.Api.Data;
 using AlatTipMyself.Api.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,7 +39,7 @@ namespace AlatTipMyself.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AlatTipMyself.Api", Version = "v1" });
             });
             services.AddScoped<IUserService, UserService>();
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options => {
                 options.AddPolicy("sample", x => x.AllowAnyOrigin().AllowAnyHeader());
             });

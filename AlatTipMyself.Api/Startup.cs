@@ -31,14 +31,16 @@ namespace AlatTipMyself.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TipMySelfContext>(options =>
-            options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AlatTipMySelfDb;Initial Catalog=AlatTipMySelf;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=AlatTipMySelfDb;Initial Catalog=AlatTipMySelf;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
             );
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AlatTipMyself.Api", Version = "v1" });
             });
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();
+            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options => {
                 options.AddPolicy("sample", x => x.AllowAnyOrigin().AllowAnyHeader());

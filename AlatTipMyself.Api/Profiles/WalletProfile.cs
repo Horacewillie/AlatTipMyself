@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AlatTipMyself.Api.DTO;
+using AlatTipMyself.Api.Models;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace AlatTipMyself.Api.Profiles
         {
             CreateMap<DTO.TipWalletDTO, Models.Wallet>();
             CreateMap<Models.Wallet, DTO.WalletDTO>();
+            //CreateMap<UserDetail, GetByAccountNumberDto>();
         }
     }
 }

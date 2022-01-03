@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlatTipMyself.Api.Migrations
 {
     [DbContext(typeof(TipMySelfContext))]
-    [Migration("20211231123022_changed-tip-percent")]
-    partial class changedtippercent
+    [Migration("20220103062256_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

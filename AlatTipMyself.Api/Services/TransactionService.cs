@@ -21,6 +21,7 @@ namespace AlatTipMyself.Api.Services
         {
             UserDetail sourceAccount;
             UserDetail destinationAccount;
+            TransactionHistory transactionHistory = new TransactionHistory();
             WalletHistory walletHistory = new WalletHistory();
             var userWallet = _context.Wallets.Where(x => x.AcctNumber == FromAccount).SingleOrDefault();
 
@@ -39,21 +40,47 @@ namespace AlatTipMyself.Api.Services
                 {
                     sourceAccount.AcctBalance -= Amount;
                     destinationAccount.AcctBalance += Amount;
+
+
+                    transactionHistory.TransactionStatus = TranStatus.Success;
+                    transactionHistory.TransactionSourceAccount = FromAccount;
+                    transactionHistory.TransactionDestinationAccount = ToAccount;
+                    transactionHistory.TransactionAmount = Amount;
+                    transactionHistory.TransactionDate = DateTime.UtcNow;
+                    //// checking if transfer was successful
+                    //if ((_context.Entry(sourceAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified) && (_context.Entry(destinationAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified))
+                    //{
+
+                    //}
+                    _context.TransactionHistories.Add(transactionHistory);
+
                 }
 
-                
-                if (userWallet == null) throw new ApplicationException("");
-
-
-
-                if(userWallet.TipStatus == true)
+                if(userWallet is null)
                 {
-                    if(sourceAccount.AcctBalance >=  (Convert.ToDecimal(userWallet.TipPercent))/100 * Amount)
+
+                }
+                else
+                {
+                    if (userWallet.TipStatus == true)
                     {
-                        sourceAccount.AcctBalance -= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                        userWallet.WalletBalance += (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                        if (sourceAccount.AcctBalance >= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount)
+                        {
+                            sourceAccount.AcctBalance -= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                            userWallet.WalletBalance += (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                        }
+
+                        walletHistory.AcctNumber = FromAccount;
+                        walletHistory.WalletId = userWallet.WalletId;
+                        walletHistory.TransactionAmount = Amount;
+                        walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
+                        walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                        walletHistory.Date = DateTime.UtcNow;
+
+                        _context.WalletHistories.Add(walletHistory);
                     }
                 }
+
 
 
                 //checking if transfer was successful
@@ -67,23 +94,15 @@ namespace AlatTipMyself.Api.Services
 
                 //}
 
-                walletHistory.AcctNumber = FromAccount;
-                walletHistory.WalletId = userWallet.WalletId;
-                walletHistory.TransactionAmount = Amount;
-                walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
-                walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                walletHistory.Date = DateTime.UtcNow;
-
-
-
-                _context.WalletHistories.Add(walletHistory);
-                _context.SaveChanges();
             }
             catch (Exception)
             {
 
                 //_logger.LogError($"AN ERROR OCCURED...");
-            } 
+            }
+
+           
+            _context.SaveChanges();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace AlatTipMyself.Api.Data
         public DbSet<UserDetail> UserDetails { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletHistory> WalletHistories { get; set; }
+        public DbSet<TransactionHistory> TransactionHistories { get; set; }
 
 
     }

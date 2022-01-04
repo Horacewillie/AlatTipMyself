@@ -1,4 +1,5 @@
 using AlatTipMyself.Api.Data;
+using AlatTipMyself.Api.Extensions;
 using AlatTipMyself.Api.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -57,6 +58,8 @@ namespace AlatTipMyself.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AlatTipMyself.Api v1"));
             }
+
+            app.ConfigureCustomMiddleware();
 
             app.UseHttpsRedirection();
 

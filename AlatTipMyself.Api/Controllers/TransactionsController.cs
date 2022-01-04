@@ -29,30 +29,31 @@ namespace AlatTipMyself.Api.Controllers
         [Route("send-money")]
         public async Task<IActionResult> SendMoneyAsync(string FromAccount, [FromBody]SendMoneyParameter sendDetails)
         {
+            if (sendDetails == null) return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
             var ToAccount = sendDetails.ToAccount;
             var Amount = sendDetails.Amount;
             var sourceAccount = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount);
-            await _userService.Save();
+            await _userService.SaveAsync();
             return Ok(sourceAccount);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("get-all-transactions")]
         public async Task<IActionResult> GetAllTransactionsAsync(string AcctNumber)
         {
             var transactionHistories = await _transactionService.GetAllTransactionsAsync(AcctNumber);
             var mappedTransactionHistories = _mapper.Map<IEnumerable<GetTransactionsDto>>(transactionHistories);
-            await _userService.Save();
+            await _userService.SaveAsync();
             return Ok(mappedTransactionHistories);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("get-all-wallet-histories")]
         public async Task<IActionResult> GetAllWalletHistoriesAsync(string AcctNumber)
         {
             var walletHistories = await _transactionService.GetAllWalletHistoriesAsync(AcctNumber);
             var mappedWalletHistories = _mapper.Map<IEnumerable<GetWalletHistoryDto>>(walletHistories);
-            await _userService.Save();
+            await _userService.SaveAsync();
             return Ok(mappedWalletHistories);
         }
     }

@@ -53,7 +53,7 @@ namespace AlatTipMyself.Api.Services
 
             await Task.Run(() =>
             {
-                if (sourceAccount == null || destinationAccount == null) throw new ApplicationException("Account does not exist");
+                if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");
                 
 
                 if (sourceAccount.AcctBalance >= Amount)

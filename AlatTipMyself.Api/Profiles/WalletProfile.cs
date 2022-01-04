@@ -14,7 +14,8 @@ namespace AlatTipMyself.Api.Profiles
         {
             CreateMap<DTO.TipWalletDTO, Models.Wallet>();
             CreateMap<Models.Wallet, DTO.WalletDTO>();
-            //CreateMap<UserDetail, GetByAccountNumberDto>();
+            CreateMap<TransactionHistory, GetTransactionsDto>();
+            CreateMap<WalletHistory, GetWalletHistoryDto>();
         }
     }
 }

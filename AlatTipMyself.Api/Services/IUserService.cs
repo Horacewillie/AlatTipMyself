@@ -19,7 +19,5 @@ namespace AlatTipMyself.Api.Services
         Task<bool> WalletExists(string accNum);
 
         Task <bool> Save();
-
-        //UserDetail GetByAccountNumber(string AccountNumber);
     }
 }

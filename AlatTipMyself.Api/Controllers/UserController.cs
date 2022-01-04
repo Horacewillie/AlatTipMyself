@@ -69,9 +69,7 @@ namespace AlatTipMyself.Api.Controllers
                 await _user.Save();
                 var walletUpdate = _mapper.Map<DTO.WalletDTO>(userWallet);
                 return Ok(walletUpdate);
-
             }
-
         }
 
         [HttpGet("walletid", Name = "GetWallet")]
@@ -85,14 +83,5 @@ namespace AlatTipMyself.Api.Controllers
             }
             return Ok(userWallet);
         }
-
-        //[HttpGet]
-        //[Route("get_by_account_number")]
-        //public IActionResult GetByAccountNumber(string accountNumber)
-        //{
-        //    var account = _user.GetByAccountNumber(accountNumber);
-        //    var cleanedAccount = _mapper.Map<GetByAccountNumberDto>(account);
-        //    return Ok(cleanedAccount);
-        //}
     }
 }

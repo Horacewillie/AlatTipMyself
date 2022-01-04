@@ -26,14 +26,6 @@ namespace AlatTipMyself.Api.Services
             var createWallet = _context.Wallets.Add(wallet);
         }
 
-        //public UserDetail GetByAccountNumber(string AccountNumber)
-        //{
-        //    var account = _context.UserDetails.Where(x => x.AcctNumber == AccountNumber).FirstOrDefault();
-
-        //    if (account == null) return null;
-
-        //    return account;
-        //}
 
         public async Task<IEnumerable<UserDetail>> GetUserDetails()
         {

@@ -23,7 +23,7 @@ namespace AlatTipMyself.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("enable-tip-wallet")]
+        [HttpPost("ActivateStatus")]
         public async Task<ActionResult<WalletDTO>> TipWallet([FromBody] TipWalletDTO model, string acctNum)
         {
             if(model == null)

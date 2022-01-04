@@ -33,6 +33,14 @@ namespace AlatTipMyself.Api.Controllers
             if (user == null)
             return BadRequest(new {StatusCode = 400,  Message = "Username or password is incorrect" });
             return Ok(user);
-        }     
+        }   
+        
+        [HttpGet("user-details")]
+
+        public async Task<IActionResult> UserDetails (string acctNum)
+        {
+            var userDetails = await _user.GetUserDetail(acctNum);
+            return Ok(userDetails);
+        }
     }
 }

@@ -46,11 +46,11 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
                         break;
                     case ArgumentNullException argException:
                         _logger.LogError(argException.Message);
-                        httpcontext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        httpcontext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         httpcontext.Response.ContentType = "application/json";
                         await httpcontext.Response.WriteAsync(new ErrorDetails()
                         {
-                            StatusCode = 500,
+                            StatusCode = 400,
                             Message = argException.Message
                         }.ToString());
                         break;

@@ -24,15 +24,6 @@ namespace AlatTipMyself.Api.Controllers
             _mapper = mapper;
             
         }
-        #region
-        //[HttpGet]
-        //public async Task<IActionResult> GetDetails()
-        //{
-        //    var users = await _user.GetUserDetailsAsync();
-        //    return Ok(users);
-        //}
-        #endregion
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -40,7 +31,7 @@ namespace AlatTipMyself.Api.Controllers
             var user = await _user.UserLoginAsync(model.Email);
 
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            return BadRequest(new { message = "Username or password is incorrect" });
             return Ok(user);
         }     
     }

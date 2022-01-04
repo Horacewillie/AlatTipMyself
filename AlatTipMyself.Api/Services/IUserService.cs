@@ -11,11 +11,6 @@ namespace AlatTipMyself.Api.Services
         //Task<IEnumerable<UserDetail>> GetUserDetailsAsync();
 
         Task<UserDetail> UserLoginAsync(string email);
-
-       
-
         Task <bool> SaveAsync();
-
-      
     }
 }

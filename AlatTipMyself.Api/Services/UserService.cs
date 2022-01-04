@@ -17,14 +17,6 @@ namespace AlatTipMyself.Api.Services
             _context = context;
         }
 
-        
-
-
-        //public async Task<IEnumerable<UserDetail>> GetUserDetailsAsync()
-        //{
-        //    return await _context.UserDetails.OrderBy(c => c.AcctNumber).ToListAsync();
-        //}
-
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);

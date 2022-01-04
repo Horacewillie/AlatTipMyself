@@ -11,52 +11,64 @@ namespace AlatTipMyself.Api.Services
     public class TransactionService : ITransactionService
     {
         private readonly TipMySelfContext _context;
-   
+
 
         public TransactionService(TipMySelfContext context)
         {
-            _context = context;   
+            _context = context;
         }
-        public void SendMoney(string FromAccount, string ToAccount, decimal Amount)
+
+        public async Task<IEnumerable<TransactionHistory>> GetAllTransactionsAsync(string AcctNumber)
         {
+            return await Task.Run(() =>
+            {
+                IEnumerable<TransactionHistory> transactionHistories = _context.TransactionHistories.ToList();
+                return transactionHistories;
+            }
+            );
+        }
+
+        public async Task<IEnumerable<WalletHistory>> GetAllWalletHistoriesAsync(string AcctNumber)
+        {
+            return await Task.Run(() =>
+            {
+                IEnumerable<WalletHistory> walletHistories = _context.WalletHistories.ToList();
+                return walletHistories;
+            }
+            );
+        }
+
+        public async Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount)
+        {
+            if (FromAccount == ToAccount) throw new ApplicationException("Sender and receiver account can not be the same");
             UserDetail sourceAccount;
             UserDetail destinationAccount;
             TransactionHistory transactionHistory = new TransactionHistory();
             WalletHistory walletHistory = new WalletHistory();
-            var userWallet = _context.Wallets.Where(x => x.AcctNumber == FromAccount).SingleOrDefault();
 
-            // var authUser = _accountService.Authenticate(FromAccount, TransactionPin);
-            //if (authUser == null) throw new ApplicationException("Invalid credentials");
-            
+            Wallet userWallet = _context.Wallets.Where(x => x.AcctNumber == FromAccount).SingleOrDefault();
 
-            try
+            sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
+            destinationAccount = _context.UserDetails.Where(x => x.AcctNumber == ToAccount).FirstOrDefault();
+
+            await Task.Run(() =>
             {
-                sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
-                destinationAccount = _context.UserDetails.Where(x => x.AcctNumber == ToAccount).FirstOrDefault();
-
                 if (sourceAccount == null || destinationAccount == null) throw new ApplicationException("Account does not exist");
+                
 
-                    if (sourceAccount.AcctBalance >= Amount)
+                if (sourceAccount.AcctBalance >= Amount)
                 {
                     sourceAccount.AcctBalance -= Amount;
                     destinationAccount.AcctBalance += Amount;
-
-
                     transactionHistory.TransactionStatus = TranStatus.Success;
                     transactionHistory.TransactionSourceAccount = FromAccount;
                     transactionHistory.TransactionDestinationAccount = ToAccount;
                     transactionHistory.TransactionAmount = Amount;
                     transactionHistory.TransactionDate = DateTime.UtcNow;
-                    //// checking if transfer was successful
-                    //if ((_context.Entry(sourceAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified) && (_context.Entry(destinationAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified))
-                    //{
-
-                    //}
                     _context.TransactionHistories.Add(transactionHistory);
-
                 }
 
-                if(userWallet is null)
+                if (userWallet is null)
                 {
 
                 }
@@ -69,40 +81,18 @@ namespace AlatTipMyself.Api.Services
                             sourceAccount.AcctBalance -= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
                             userWallet.WalletBalance += (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
                         }
-
                         walletHistory.AcctNumber = FromAccount;
                         walletHistory.WalletId = userWallet.WalletId;
                         walletHistory.TransactionAmount = Amount;
                         walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
                         walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
                         walletHistory.Date = DateTime.UtcNow;
-
                         _context.WalletHistories.Add(walletHistory);
                     }
                 }
-
-
-
-                //checking if transfer was successful
-                //if ((_context.Entry(sourceAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified) && (_context.Entry(destinationAccount).State == Microsoft.EntityFrameworkCore.EntityState.Modified))
-                //{
-
-                //}
-                //else
-                //{
-
-
-                //}
-
             }
-            catch (Exception)
-            {
-
-                //_logger.LogError($"AN ERROR OCCURED...");
-            }
-
-           
-            _context.SaveChanges();
+            );
+            return sourceAccount;
         }
     }
 }

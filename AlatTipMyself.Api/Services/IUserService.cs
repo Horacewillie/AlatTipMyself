@@ -8,16 +8,9 @@ namespace AlatTipMyself.Api.Services
 {
   public  interface IUserService
     {
-        Task<IEnumerable<UserDetail>> GetUserDetails();
+        //Task<IEnumerable<UserDetail>> GetUserDetailsAsync();
 
-        Task<UserDetail> UserLogin(string email);
-
-        void CreateWallet(Wallet wallet);
-
-        Task<Wallet> UserWallet(string acctNum);
-
-        Task<bool> WalletExists(string accNum);
-
-        Task <bool> Save();
+        Task<UserDetail> UserLoginAsync(string email);
+        Task <bool> SaveAsync();
     }
 }

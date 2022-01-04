@@ -40,6 +40,7 @@ namespace AlatTipMyself.Api
             });
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITipWalletService, TipWalletService>();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options => {

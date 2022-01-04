@@ -17,35 +17,20 @@ namespace AlatTipMyself.Api.Services
             _context = context;
         }
 
-        public void CreateWallet(Wallet wallet)
-        {
-            if(wallet == null)
-            {
-                throw new NullReferenceException("The model cannot be null");
-            }
-            var createWallet = _context.Wallets.Add(wallet);
-        }
+        
 
-        //public UserDetail GetByAccountNumber(string AccountNumber)
+
+        //public async Task<IEnumerable<UserDetail>> GetUserDetailsAsync()
         //{
-        //    var account = _context.UserDetails.Where(x => x.AcctNumber == AccountNumber).FirstOrDefault();
-
-        //    if (account == null) return null;
-
-        //    return account;
+        //    return await _context.UserDetails.OrderBy(c => c.AcctNumber).ToListAsync();
         //}
 
-        public async Task<IEnumerable<UserDetail>> GetUserDetails()
-        {
-            return await _context.UserDetails.OrderBy(c => c.AcctNumber).ToListAsync();
-        }
-
-        public async Task<bool> Save()
+        public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
         }
 
-        public async Task<UserDetail> UserLogin(string email)
+        public async Task<UserDetail> UserLoginAsync(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -61,15 +46,7 @@ namespace AlatTipMyself.Api.Services
             return user;
         }
 
-        public async Task<Wallet> UserWallet(string acctNum)
-        {
-            return await _context.Wallets.FirstOrDefaultAsync(c => c.AcctNumber == acctNum);
-        }
-
-        public async Task<bool> WalletExists(string accNum)
-        {
-            return await _context.Wallets.AnyAsync(c => c.AcctNumber == accNum);
-        }
+       
     }
     
 }

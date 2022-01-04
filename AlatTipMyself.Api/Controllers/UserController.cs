@@ -35,7 +35,7 @@ namespace AlatTipMyself.Api.Controllers
             return Ok(user);
         }   
         
-        [HttpGet("user-details")]
+        [HttpGet("UserDetails")]
 
         public async Task<IActionResult> UserDetails (string acctNum)
         {

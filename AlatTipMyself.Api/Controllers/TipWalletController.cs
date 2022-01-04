@@ -26,6 +26,10 @@ namespace AlatTipMyself.Api.Controllers
         [HttpPost("enable-tip-wallet")]
         public async Task<ActionResult<WalletDTO>> TipWallet([FromBody] TipWalletDTO model, string acctNum)
         {
+            if(model == null)
+            {
+                return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
+            }
             var enableTipWallet = await _tipWallet.ActivateTipMyselfAsync(model, acctNum);
             await _user.SaveAsync();
             var walletReturn = _mapper.Map<DTO.WalletDTO>(enableTipWallet);

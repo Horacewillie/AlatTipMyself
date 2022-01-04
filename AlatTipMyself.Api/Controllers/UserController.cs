@@ -31,7 +31,7 @@ namespace AlatTipMyself.Api.Controllers
             var user = await _user.UserLoginAsync(model.Email);
 
             if (user == null)
-            return BadRequest(new { message = "Username or password is incorrect" });
+            return BadRequest(new {StatusCode = 400,  Message = "Username or password is incorrect" });
             return Ok(user);
         }     
     }

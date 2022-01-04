@@ -1,4 +1,5 @@
 using AlatTipMyself.Api.Data;
+using AlatTipMyself.Api.Extensions;
 using AlatTipMyself.Api.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,7 @@ namespace AlatTipMyself.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TipMySelfContext>(options =>
-            options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AlatTipMySelfDb;Initial Catalog=AlatTipMySelf;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AlatTipMySelfDb2;Initial Catalog=AlatTipMySelf2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
             );
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,6 +58,8 @@ namespace AlatTipMyself.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AlatTipMyself.Api v1"));
             }
+
+            app.ConfigureCustomMiddleware();
 
             app.UseHttpsRedirection();
 

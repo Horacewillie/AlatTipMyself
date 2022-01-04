@@ -17,6 +17,15 @@ namespace AlatTipMyself.Api.Services
             _context = context;
         }
 
+        public async Task<UserDetail> GetUserDetail(string acctNum)
+        {
+            if(acctNum == null)
+            {
+                throw new ArgumentNullException(nameof(acctNum));
+            }
+            return await _context.UserDetails.Where(c => c.AcctNumber == acctNum).FirstOrDefaultAsync();
+        }
+
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);

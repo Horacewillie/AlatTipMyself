@@ -12,5 +12,7 @@ namespace AlatTipMyself.Api.Services
 
         Task<UserDetail> UserLoginAsync(string email);
         Task <bool> SaveAsync();
+
+        Task<UserDetail> GetUserDetail(string acctNum);
     }
 }

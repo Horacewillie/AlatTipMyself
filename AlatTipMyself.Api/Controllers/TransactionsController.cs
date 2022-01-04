@@ -23,9 +23,9 @@ namespace AlatTipMyself.Api.Controllers
 
         [HttpPost]
         [Route("send_money")]
-        public IActionResult SendMoney(string FromAccount, string ToAccount, decimal Amount)
+        public async Task<IActionResult> SendMoney(string FromAccount, string ToAccount, decimal Amount)
         {
-            _transactionService.SendMoney(FromAccount, ToAccount, Amount);
+            await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount);
             return Ok();
         }
     }

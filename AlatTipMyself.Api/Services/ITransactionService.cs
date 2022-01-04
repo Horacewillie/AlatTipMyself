@@ -7,6 +7,6 @@ namespace AlatTipMyself.Api.Services
 {
     public interface ITransactionService
     {
-        public void SendMoney(string FromAccount, string ToAccount, decimal Amount);
+        public Task SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount);
     }
 }

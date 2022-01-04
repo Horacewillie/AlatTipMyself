@@ -25,7 +25,7 @@ namespace AlatTipMyself.Api.Controllers
             
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _user.UserLoginAsync(model.Email);

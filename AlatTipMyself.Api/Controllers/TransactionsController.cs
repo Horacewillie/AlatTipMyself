@@ -26,7 +26,7 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpPost]
-        [Route("send-money")]
+        [Route("SendMoney")]
         public async Task<IActionResult> SendMoneyAsync(string FromAccount, [FromBody]SendMoneyParameter sendDetails)
         {
             if (sendDetails == null) return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
@@ -38,7 +38,7 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-all-transactions")]
+        [Route("Transaction")]
         public async Task<IActionResult> GetAllTransactionsAsync(string AcctNumber)
         {
             var transactionHistories = await _transactionService.GetAllTransactionsAsync(AcctNumber);
@@ -48,7 +48,7 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-all-wallet-histories")]
+        [Route("WalletHistory")]
         public async Task<IActionResult> GetAllWalletHistoriesAsync(string AcctNumber)
         {
             var walletHistories = await _transactionService.GetAllWalletHistoriesAsync(AcctNumber);

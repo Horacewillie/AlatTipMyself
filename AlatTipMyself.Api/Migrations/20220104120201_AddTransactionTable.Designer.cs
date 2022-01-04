@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlatTipMyself.Api.Migrations
 {
     [DbContext(typeof(TipMySelfContext))]
-    [Migration("20220104114558_AddTransactionsTable")]
-    partial class AddTransactionsTable
+    [Migration("20220104120201_AddTransactionTable")]
+    partial class AddTransactionTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

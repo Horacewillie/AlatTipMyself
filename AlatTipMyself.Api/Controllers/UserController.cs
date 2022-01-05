@@ -1,5 +1,6 @@
 ﻿using AlatTipMyself.Api.DTO;
 using AlatTipMyself.Api.Models;
+using AlatTipMyself.Api.Parameters;
 using AlatTipMyself.Api.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -26,21 +27,33 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<ActionResult<UserDetailDto>> Login([FromBody] LoginParameter model)
         {
-            var user = await _user.UserLoginAsync(model.Email);
-
-            if (user == null)
-            return BadRequest(new {StatusCode = 400,  Message = "Username or password is incorrect" });
-            return Ok(user);
+            var user = await _user.UserLoginAsync(model.Email, model.Password);
+            var userDto = _mapper.Map<UserDetailDto>(user);
+            return Ok(userDto);
         }   
         
-        [HttpGet("UserDetails")]
+        [HttpGet("UserDetails", Name="GetUserDetail")]
 
         public async Task<IActionResult> UserDetails (string acctNum)
         {
             var userDetails = await _user.GetUserDetail(acctNum);
-            return Ok(userDetails);
+            var userDto = _mapper.Map<UserDetailDto>(userDetails);
+            return Ok(userDto);
+        }
+
+        [HttpPost("CreateAccount")]
+        public async Task<ActionResult<UserDetailDto>> CreateAccountAsync( CreateAccountDto createUser)
+        {
+            if (createUser == null)
+            {
+                throw new ArgumentNullException(nameof(createUser));
+            }
+            var createdUser = _user.CreateAccountAsync(createUser);
+            await _user.SaveAsync();
+            var userDto = _mapper.Map<UserDetailDto>(createdUser);
+            return CreatedAtRoute("GetUserDetail", new { AcctNum = userDto.AcctNumber }, userDto);
         }
     }
 }

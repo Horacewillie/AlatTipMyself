@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlatTipMyself.Api.Migrations
 {
     [DbContext(typeof(TipMySelfContext))]
-    [Migration("20220104121951_InitMig")]
-    partial class InitMig
+    [Migration("20220105135339_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,14 +60,31 @@ namespace AlatTipMyself.Api.Migrations
                     b.Property<decimal>("AcctBalance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("AcctName")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PinHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PinSalt")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("AcctNumber");
 

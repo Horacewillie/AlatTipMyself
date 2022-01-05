@@ -36,10 +36,10 @@ namespace AlatTipMyself.Api.Data
         {
             return new List<UserDetail>()
         {
-            new UserDetail(){AcctNumber ="1002034567", AcctName = "Hassan Daranijo", AcctBalance = 20000, Email="daranijohassan@gmail.com"},
-            new UserDetail(){AcctNumber ="2056786789", AcctName = "Nelson Akinro", AcctBalance = 10000, Email="nelsonakinro@gmail.com"},
-            new UserDetail(){AcctNumber ="4002035567", AcctName = "Horace Akpan", AcctBalance = 50000, Email="horacewillie7@gmail.com"},
-            new UserDetail(){AcctNumber ="0602036767", AcctName = "Peace Ozon", AcctBalance = 26500, Email="PeaceOzon@gmail.com"}
+            new UserDetail(){AcctNumber ="1002034567", FirstName = "Hassan", LastName="Daranijo", AcctBalance = 20000, Email="daranijohassan@gmail.com"},
+            new UserDetail(){AcctNumber ="2056786789", FirstName = "Akinro", LastName ="Nelson", AcctBalance = 10000, Email="nelsonakinro@gmail.com"},
+            new UserDetail(){AcctNumber ="4002035567", FirstName = "Horace", LastName="Akpan", AcctBalance = 50000, Email="horacewillie7@gmail.com"},
+            new UserDetail(){AcctNumber ="0602036767", FirstName = "Peace", LastName="Ozon", AcctBalance = 26500, Email="PeaceOzon@gmail.com"}
         };
         }
     }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlatTipMyself.Api.Migrations
 {
-    public partial class InitMig : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,9 +30,14 @@ namespace AlatTipMyself.Api.Migrations
                 columns: table => new
                 {
                     AcctNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    AcctName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AcctBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AcctBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PinHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PinSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {

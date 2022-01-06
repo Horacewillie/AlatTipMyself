@@ -47,6 +47,30 @@ namespace AlatTipMyself.Api.Services
 
         }
 
-     
+        public async Task<Wallet> ToggleTipMyselfAsync(ToggleTipMyselfDTO toggleTip, string acctNum)
+        {
+            if (toggleTip == null)
+            {
+                throw new ArgumentNullException(nameof(toggleTip));
+            }
+
+            var wallet = _mapper.Map<Models.Wallet>(toggleTip);
+            var walletExists = await _context.Wallets.AnyAsync(c => c.AcctNumber == acctNum);
+            if (!walletExists)
+            {
+                wallet.AcctNumber = acctNum;
+                wallet.TipStatus = toggleTip.TipStatus;
+                await _context.Wallets.AddAsync(wallet);
+                return wallet;
+            }
+            else
+            {
+                var userWallet = await _context.Wallets.FirstOrDefaultAsync(c => c.AcctNumber == acctNum);
+                userWallet.AcctNumber = acctNum;
+                userWallet.TipStatus = toggleTip.TipStatus;
+                _context.Wallets.Update(userWallet);
+                return userWallet;
+            }
+        }
     }
 }

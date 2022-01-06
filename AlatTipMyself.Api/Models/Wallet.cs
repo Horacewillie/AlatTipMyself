@@ -22,6 +22,6 @@ namespace AlatTipMyself.Api.Models
         public decimal WalletBalance { get; set; } = 0;
         public bool TipStatus { get; set; } = false;
 
-        public TipPercentage TipPercent { get; set; }
+        public string TipPercent { get; set; }
     }
 }

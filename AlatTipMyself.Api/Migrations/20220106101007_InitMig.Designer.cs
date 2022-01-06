@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlatTipMyself.Api.Migrations
 {
     [DbContext(typeof(TipMySelfContext))]
-    [Migration("20220106091516_initmig")]
-    partial class initmig
+    [Migration("20220106101007_InitMig")]
+    partial class InitMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,8 +102,8 @@ namespace AlatTipMyself.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("TipPercent")
-                        .HasColumnType("int");
+                    b.Property<string>("TipPercent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TipStatus")
                         .HasColumnType("bit");

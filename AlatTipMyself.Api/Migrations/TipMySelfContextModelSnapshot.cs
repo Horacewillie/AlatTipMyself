@@ -100,8 +100,8 @@ namespace AlatTipMyself.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("TipPercent")
-                        .HasColumnType("int");
+                    b.Property<string>("TipPercent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TipStatus")
                         .HasColumnType("bit");

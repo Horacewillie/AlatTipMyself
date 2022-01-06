@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlatTipMyself.Api.Migrations
 {
-    public partial class initmig : Migration
+    public partial class InitMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,7 @@ namespace AlatTipMyself.Api.Migrations
                     AcctNumber = table.Column<string>(type: "nvarchar(10)", nullable: false),
                     WalletBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TipStatus = table.Column<bool>(type: "bit", nullable: false),
-                    TipPercent = table.Column<int>(type: "int", nullable: false)
+                    TipPercent = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.DTO
 {
-    public class GetWalletHistoryDto
+    public class WalletHistoryDto
     {
         public decimal TransactionAmount { get; set; }
         public int TipPercent { get; set; }

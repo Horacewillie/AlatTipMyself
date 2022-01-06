@@ -24,7 +24,7 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpPost("ActivateStatus")]
-        public async Task<ActionResult<WalletDTO>> TipWallet([FromBody] TipWalletDTO model, string acctNum)
+        public async Task<ActionResult<WalletDto>> TipWallet([FromBody] WalletCreationDto model, string acctNum)
         {
             if(model == null)
             {
@@ -32,9 +32,11 @@ namespace AlatTipMyself.Api.Controllers
             }
             var enableTipWallet = await _tipWallet.ActivateTipMyselfAsync(model, acctNum);
             await _user.SaveAsync();
-            var walletReturn = _mapper.Map<DTO.WalletDTO>(enableTipWallet);
+            var walletReturn = _mapper.Map<DTO.WalletDto>(enableTipWallet);
             return Ok(walletReturn);
 
         }
+
+       
     }
 }

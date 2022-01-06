@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.DTO
 {
-    public class WalletDTO
+    public class WalletDto
     {
         public int WalletId { get; set; }
 
-     
         public string AcctNumber { get; set; }
 
         public decimal WalletBalance { get; set; } = 0;

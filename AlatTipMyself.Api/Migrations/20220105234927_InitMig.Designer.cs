@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlatTipMyself.Api.Migrations
 {
     [DbContext(typeof(TipMySelfContext))]
-    [Migration("20220104121951_InitMig")]
+    [Migration("20220105234927_InitMig")]
     partial class InitMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,23 +53,40 @@ namespace AlatTipMyself.Api.Migrations
 
             modelBuilder.Entity("AlatTipMyself.Api.Models.UserDetail", b =>
                 {
-                    b.Property<string>("AcctNumber")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("AcctBalance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("AcctName")
+                    b.Property<string>("AcctNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AcctNumber");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionPin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("UserDetails");
                 });
@@ -96,7 +113,8 @@ namespace AlatTipMyself.Api.Migrations
 
                     b.HasKey("WalletId");
 
-                    b.HasIndex("AcctNumber");
+                    b.HasIndex("AcctNumber")
+                        .IsUnique();
 
                     b.ToTable("Wallets");
                 });
@@ -138,8 +156,9 @@ namespace AlatTipMyself.Api.Migrations
             modelBuilder.Entity("AlatTipMyself.Api.Models.Wallet", b =>
                 {
                     b.HasOne("AlatTipMyself.Api.Models.UserDetail", "UserDetail")
-                        .WithMany()
-                        .HasForeignKey("AcctNumber")
+                        .WithOne("Wallet")
+                        .HasForeignKey("AlatTipMyself.Api.Models.Wallet", "AcctNumber")
+                        .HasPrincipalKey("AlatTipMyself.Api.Models.UserDetail", "AcctNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -149,8 +168,9 @@ namespace AlatTipMyself.Api.Migrations
             modelBuilder.Entity("AlatTipMyself.Api.Models.WalletHistory", b =>
                 {
                     b.HasOne("AlatTipMyself.Api.Models.UserDetail", "UserDetail")
-                        .WithMany()
-                        .HasForeignKey("AcctNumber");
+                        .WithMany("WalletHistory")
+                        .HasForeignKey("AcctNumber")
+                        .HasPrincipalKey("AcctNumber");
 
                     b.HasOne("AlatTipMyself.Api.Models.Wallet", "Wallet")
                         .WithMany()
@@ -161,6 +181,13 @@ namespace AlatTipMyself.Api.Migrations
                     b.Navigation("UserDetail");
 
                     b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AlatTipMyself.Api.Models.UserDetail", b =>
+                {
+                    b.Navigation("Wallet");
+
+                    b.Navigation("WalletHistory");
                 });
 #pragma warning restore 612, 618
         }

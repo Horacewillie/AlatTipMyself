@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Profiles
 {
-    public class WalletProfile : Profile 
+    public class HistoryProfiles : Profile
     {
-        public WalletProfile()
+        public HistoryProfiles()
         {
-            CreateMap<DTO.WalletCreationDto, Models.Wallet>();
-            CreateMap<Models.Wallet, DTO.WalletDto>();
-            
+            CreateMap<TransactionHistory, TransactionsDto>();
+            CreateMap<WalletHistory, WalletHistoryDto>();
         }
     }
 }

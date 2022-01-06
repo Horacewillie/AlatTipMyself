@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.DTO
 {
-    public class GetTransactionsDto
+    public class TransactionsDto
     {
         public string TransactionUniqueReference { get; set; }
         public decimal TransactionAmount { get; set; }

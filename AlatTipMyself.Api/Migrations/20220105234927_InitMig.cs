@@ -29,14 +29,20 @@ namespace AlatTipMyself.Api.Migrations
                 name: "UserDetails",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AcctNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    AcctName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AcctBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AcctBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionPin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserDetails", x => x.AcctNumber);
+                    table.PrimaryKey("PK_UserDetails", x => x.Id);
+                    table.UniqueConstraint("AK_UserDetails_AcctNumber", x => x.AcctNumber);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +110,8 @@ namespace AlatTipMyself.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Wallets_AcctNumber",
                 table: "Wallets",
-                column: "AcctNumber");
+                column: "AcctNumber",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

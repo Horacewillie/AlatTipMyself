@@ -1,4 +1,6 @@
-﻿using AlatTipMyself.Api.Models;
+﻿using AlatTipMyself.Api.DTO;
+using AlatTipMyself.Api.Models;
+using AlatTipMyself.Api.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,14 @@ namespace AlatTipMyself.Api.Services
     {
         //Task<IEnumerable<UserDetail>> GetUserDetailsAsync();
 
-        Task<UserDetail> UserLoginAsync(string email);
+        Task<UserDetail> UserLoginAsync(LoginParameter model);
         Task <bool> SaveAsync();
 
-        Task<UserDetail> GetUserDetail(string acctNum);
+        Task<UserDetail> GetUserDetailAsync(string acctNum);
+
+        Task CreateAccountAsync(UserDetail userDetail);
+
+        Task<WalletDto> WalletDetailsAsync(string acctNumber);
+
     }
 }

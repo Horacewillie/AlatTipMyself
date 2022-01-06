@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Controllers
@@ -27,6 +28,7 @@ namespace AlatTipMyself.Api.Controllers
 
         [HttpPost]
         [Route("SendMoney")]
+        [ProducesResponseType(typeof(UserDetailDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> SendMoneyAsync(string FromAccount, [FromBody]SendMoneyParameter sendDetails)
         {
             if (sendDetails == null) return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
@@ -34,15 +36,17 @@ namespace AlatTipMyself.Api.Controllers
             var Amount = sendDetails.Amount;
             var sourceAccount = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount);
             await _userService.SaveAsync();
-            return Ok(sourceAccount);
+            var user = _mapper.Map<UserDetailDto>(sourceAccount);
+            return Ok(user);
         }
 
         [HttpGet]
-        [Route("Transaction")]
+        [Route("TransactionHistory")]
+        [ProducesResponseType(typeof(IEnumerable<TransactionsDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllTransactionsAsync(string AcctNumber)
         {
             var transactionHistories = await _transactionService.GetAllTransactionsAsync(AcctNumber);
-            var mappedTransactionHistories = _mapper.Map<IEnumerable<GetTransactionsDto>>(transactionHistories);
+            var mappedTransactionHistories = _mapper.Map<IEnumerable<TransactionsDto>>(transactionHistories);
             await _userService.SaveAsync();
             return Ok(mappedTransactionHistories);
         }
@@ -52,7 +56,7 @@ namespace AlatTipMyself.Api.Controllers
         public async Task<IActionResult> GetAllWalletHistoriesAsync(string AcctNumber)
         {
             var walletHistories = await _transactionService.GetAllWalletHistoriesAsync(AcctNumber);
-            var mappedWalletHistories = _mapper.Map<IEnumerable<GetWalletHistoryDto>>(walletHistories);
+            var mappedWalletHistories = _mapper.Map<IEnumerable<WalletHistoryDto>>(walletHistories);
             await _userService.SaveAsync();
             return Ok(mappedWalletHistories);
         }

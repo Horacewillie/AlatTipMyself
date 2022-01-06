@@ -37,6 +37,18 @@ namespace AlatTipMyself.Api.Controllers
 
         }
 
-       
+        [HttpPost("ToggleTipMyself")]
+        public async Task<ActionResult<ToggleTipMyselfViewDTO>> ToggleTipMyself([FromBody] ToggleTipMyselfDTO model, string acctNum)
+        {
+            if (model == null)
+            {
+                return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
+            }
+            var toggleTipMyself = await _tipWallet.ToggleTipMyselfAsync(model, acctNum);
+            await _user.SaveAsync();
+            var returnToggleView = _mapper.Map<ToggleTipMyselfViewDTO>(toggleTipMyself);
+            return Ok(returnToggleView);
+        }
+
     }
 }

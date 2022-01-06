@@ -14,7 +14,8 @@ namespace AlatTipMyself.Api.Profiles
         {
             CreateMap<DTO.WalletCreationDto, Models.Wallet>();
             CreateMap<Models.Wallet, DTO.WalletDto>();
-            
+            CreateMap<DTO.ToggleTipMyselfDTO, Models.Wallet>();
+            CreateMap<Models.Wallet, DTO.ToggleTipMyselfViewDTO>();
         }
     }
 }

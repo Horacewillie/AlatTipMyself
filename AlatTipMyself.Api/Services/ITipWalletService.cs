@@ -11,7 +11,7 @@ namespace AlatTipMyself.Api.Services
     {
         Task<Wallet> ActivateTipMyselfAsync(WalletCreationDto tipWallet, string acctNum);
 
-        
+        Task<Wallet> ToggleTipMyselfAsync(ToggleTipMyselfDTO toggleTip, string acctNum);
 
     }
 }

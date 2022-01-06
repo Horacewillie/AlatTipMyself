@@ -32,7 +32,7 @@ namespace AlatTipMyself.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TipMySelfContext>(options =>
-            options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AlatTipMySelfDb;Initial Catalog=AlatTipMySelf;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            options.UseSqlServer(@"Server=tcp:tip-dev-sqlserver.database.windows.net,1433;Initial Catalog=tip-dev-sqldatabase;Persist Security Info=False;User ID=TIP2021;Password=TipProject20@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30")
             );
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -73,7 +73,7 @@ namespace AlatTipMyself.Api
             {
                 endpoints.MapControllers();
             });
-            PrepDb.PrepPopulation(app);
+            //PrepDb.PrepPopulation(app);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlatTipMyself.Api.Migrations
 {
-    public partial class InitMig : Migration
+    public partial class initmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

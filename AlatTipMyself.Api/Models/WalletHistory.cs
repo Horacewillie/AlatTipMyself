@@ -13,11 +13,9 @@ namespace AlatTipMyself.Api.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WalletHistoryId { get; set; }
 
-        [ForeignKey("AcctNumber")]
         public UserDetail UserDetail { get; set; }
         public string AcctNumber { get; set; }
 
-        [ForeignKey("WalletId")]
         public Wallet Wallet { get; set; }
         public int WalletId { get; set; }
 

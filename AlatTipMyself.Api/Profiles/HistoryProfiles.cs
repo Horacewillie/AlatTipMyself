@@ -12,8 +12,8 @@ namespace AlatTipMyself.Api.Profiles
     {
         public HistoryProfiles()
         {
-            CreateMap<TransactionHistory, GetTransactionsDto>();
-            CreateMap<WalletHistory, GetWalletHistoryDto>();
+            CreateMap<TransactionHistory, TransactionsDto>();
+            CreateMap<WalletHistory, WalletHistoryDto>();
         }
     }
 }

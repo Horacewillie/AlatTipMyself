@@ -51,12 +51,18 @@ namespace AlatTipMyself.Api.Migrations
 
             modelBuilder.Entity("AlatTipMyself.Api.Models.UserDetail", b =>
                 {
-                    b.Property<string>("AcctNumber")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("AcctBalance")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("AcctNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -72,19 +78,13 @@ namespace AlatTipMyself.Api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("TransactionPin")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PinHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PinSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("AcctNumber");
+                    b.HasKey("Id");
 
                     b.ToTable("UserDetails");
                 });
@@ -111,7 +111,8 @@ namespace AlatTipMyself.Api.Migrations
 
                     b.HasKey("WalletId");
 
-                    b.HasIndex("AcctNumber");
+                    b.HasIndex("AcctNumber")
+                        .IsUnique();
 
                     b.ToTable("Wallets");
                 });
@@ -153,8 +154,9 @@ namespace AlatTipMyself.Api.Migrations
             modelBuilder.Entity("AlatTipMyself.Api.Models.Wallet", b =>
                 {
                     b.HasOne("AlatTipMyself.Api.Models.UserDetail", "UserDetail")
-                        .WithMany()
-                        .HasForeignKey("AcctNumber")
+                        .WithOne("Wallet")
+                        .HasForeignKey("AlatTipMyself.Api.Models.Wallet", "AcctNumber")
+                        .HasPrincipalKey("AlatTipMyself.Api.Models.UserDetail", "AcctNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -164,8 +166,9 @@ namespace AlatTipMyself.Api.Migrations
             modelBuilder.Entity("AlatTipMyself.Api.Models.WalletHistory", b =>
                 {
                     b.HasOne("AlatTipMyself.Api.Models.UserDetail", "UserDetail")
-                        .WithMany()
-                        .HasForeignKey("AcctNumber");
+                        .WithMany("WalletHistory")
+                        .HasForeignKey("AcctNumber")
+                        .HasPrincipalKey("AcctNumber");
 
                     b.HasOne("AlatTipMyself.Api.Models.Wallet", "Wallet")
                         .WithMany()
@@ -176,6 +179,13 @@ namespace AlatTipMyself.Api.Migrations
                     b.Navigation("UserDetail");
 
                     b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AlatTipMyself.Api.Models.UserDetail", b =>
+                {
+                    b.Navigation("Wallet");
+
+                    b.Navigation("WalletHistory");
                 });
 #pragma warning restore 612, 618
         }

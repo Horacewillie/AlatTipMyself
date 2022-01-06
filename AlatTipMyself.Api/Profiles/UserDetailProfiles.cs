@@ -13,18 +13,10 @@ namespace AlatTipMyself.Api.Profiles
     {
         public UserDetailProfiles()
         {
-            //CreateMap<CreateAccountDto, UserDetail>();
-            //CreateMap<CreateAccountDto, UserDetailDto>()
-            //    .ForMember(
-            //    dest => dest.AcctName,
-            //    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}")
-            //    );
-            //CreateMap<UserDetail, UserDetailDto>();
+            
             CreateMap<UserDetail, UserDetailDto>()
                 .ForMember(dest => dest.AcctName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-            CreateMap<CreateAccountDto, UserDetail>();
-            
-              
+            CreateMap<UserDetailCreationDto, UserDetail>();  
         }
     }
 }

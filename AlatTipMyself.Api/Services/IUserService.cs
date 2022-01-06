@@ -12,13 +12,14 @@ namespace AlatTipMyself.Api.Services
     {
         //Task<IEnumerable<UserDetail>> GetUserDetailsAsync();
 
-        Task<UserDetail> UserLoginAsync(string email, string Password);
+        Task<UserDetail> UserLoginAsync(LoginParameter model);
         Task <bool> SaveAsync();
 
-        Task<UserDetail> GetUserDetail(string acctNum);
+        Task<UserDetail> GetUserDetailAsync(string acctNum);
 
-        Task CreateAccountAsync(CreateUserParameters createUser);
+        Task CreateAccountAsync(UserDetail userDetail);
 
-        
+        Task<WalletDto> WalletDetailsAsync(string acctNumber);
+
     }
 }

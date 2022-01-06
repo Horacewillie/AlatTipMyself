@@ -14,9 +14,9 @@ namespace AlatTipMyself.Api.Models
         {
             AcctNumber = HelperMethods.GenerateAccountNumber().Result;
         }
-        //[Key]
-        //public int Id { get; set; }
         [Key]
+        public int Id { get; set; }
+        
         [MaxLength(10)]
         public string AcctNumber { get; set; }
         [Required]
@@ -29,19 +29,10 @@ namespace AlatTipMyself.Api.Models
         [Required]
         public string Email { get; set; }
         public decimal AcctBalance { get; set; } = 50000;
-        //public Wallet Wallet { get; set; }
-        //public List<WalletHistory> WalletHistory { get; set; }
-        //public string TransactionPin { get; set; }
-        //public string Password { get; set; }
-
-        [JsonIgnore]
-        public byte[] PinHash { get; set; }
-        [JsonIgnore]
-        public byte[] PinSalt { get; set; }
-        [JsonIgnore]
-        public byte[] PasswordHash { get; set; }
-        [JsonIgnore]
-        public byte[] PasswordSalt { get; set; }
+        public Wallet Wallet { get; set; }
+        public List<WalletHistory> WalletHistory { get; set; }
+        public string TransactionPin { get; set; }
+        public string Password { get; set; }
     }
 
     

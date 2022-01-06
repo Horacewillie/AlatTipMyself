@@ -46,16 +46,14 @@ namespace AlatTipMyself.Api.Services
             TransactionHistory transactionHistory = new TransactionHistory();
             WalletHistory walletHistory = new WalletHistory();
 
-            Wallet userWallet = _context.Wallets.Where(x => x.AcctNumber == FromAccount).SingleOrDefault();
+            Wallet userWallet = _context.Wallets.SingleOrDefault(x => x.AcctNumber == FromAccount);
 
-            sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
-            destinationAccount = _context.UserDetails.Where(x => x.AcctNumber == ToAccount).FirstOrDefault();
+            sourceAccount = _context.UserDetails.FirstOrDefault(x => x.AcctNumber == FromAccount);
+            destinationAccount = _context.UserDetails.FirstOrDefault(x => x.AcctNumber == ToAccount);
 
             await Task.Run(() =>
             {
                 if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");
-                
-
                 if (sourceAccount.AcctBalance >= Amount)
                 {
                     sourceAccount.AcctBalance -= Amount;
@@ -66,33 +64,50 @@ namespace AlatTipMyself.Api.Services
                     transactionHistory.TransactionAmount = Amount;
                     transactionHistory.TransactionDate = DateTime.UtcNow;
                     _context.TransactionHistories.Add(transactionHistory);
-                }
 
-                if (userWallet is null)
-                {
+                    if (userWallet is null)
+                    {
+
+                    }
+                    else
+                    {
+                        if (userWallet.TipStatus == true)
+                        {
+                            if (sourceAccount.AcctBalance >= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount)
+                            {
+                                sourceAccount.AcctBalance -= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                                userWallet.WalletBalance += (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+
+                                walletHistory.AcctNumber = FromAccount;
+                                walletHistory.WalletId = userWallet.WalletId;
+                                walletHistory.TransactionAmount = Amount;
+                                walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
+                                walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
+                                walletHistory.Date = DateTime.UtcNow;          
+                            }
+                            else
+                            {
+                                walletHistory.AcctNumber = FromAccount;
+                                walletHistory.WalletId = userWallet.WalletId;
+                                walletHistory.TransactionAmount = Amount;
+                                walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
+                                walletHistory.TipAmount = 0;
+                                walletHistory.Date = DateTime.UtcNow;                            
+                            }
+                            _context.WalletHistories.Add(walletHistory);
+                        }
+                    }
+
 
                 }
                 else
                 {
-                    if (userWallet.TipStatus == true)
-                    {
-                        if (sourceAccount.AcctBalance >= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount)
-                        {
-                            sourceAccount.AcctBalance -= (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                            userWallet.WalletBalance += (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                        }
-                        walletHistory.AcctNumber = FromAccount;
-                        walletHistory.WalletId = userWallet.WalletId;
-                        walletHistory.TransactionAmount = Amount;
-                        walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
-                        walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                        walletHistory.Date = DateTime.UtcNow;
-                        _context.WalletHistories.Add(walletHistory);
-                    }
-                }
+                    throw new ApplicationException("Insufficient funds");
+                }      
             }
             );
             return sourceAccount;
+            
         }
     }
 }

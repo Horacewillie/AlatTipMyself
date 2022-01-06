@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Controllers
 {
-    [Route("api/User")]
+    [Route("api/Users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -27,33 +28,41 @@ namespace AlatTipMyself.Api.Controllers
         }
 
         [HttpPost("Login")]
+        [ProducesResponseType(typeof(UserDetailDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<UserDetailDto>> Login([FromBody] LoginParameter model)
         {
-            var user = await _user.UserLoginAsync(model.Email, model.Password);
+            var user = await _user.UserLoginAsync(model);
             var userDto = _mapper.Map<UserDetailDto>(user);
             return Ok(userDto);
         }   
         
         [HttpGet("UserDetails", Name="GetUserDetail")]
-
+        [ProducesResponseType(typeof(UserDetailDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UserDetails (string acctNum)
         {
-            var userDetails = await _user.GetUserDetail(acctNum);
+            var userDetails = await _user.GetUserDetailAsync(acctNum);
             var userDto = _mapper.Map<UserDetailDto>(userDetails);
             return Ok(userDto);
         }
 
         [HttpPost("CreateAccount")]
-        public async Task<ActionResult<UserDetailDto>> CreateAccountAsync( CreateAccountDto createUser)
+        [ProducesResponseType(typeof(UserDetailDto), (int)HttpStatusCode.Created)]
+        public async Task<ActionResult<UserDetailDto>> CreateNewAccount(UserDetailCreationDto createUser)
         {
-            if (createUser == null)
-            {
-                throw new ArgumentNullException(nameof(createUser));
-            }
-            var createdUser = _user.CreateAccountAsync(createUser);
+            var userCreation = _mapper.Map<UserDetail>(createUser);
+            await _user.CreateAccountAsync(userCreation);
             await _user.SaveAsync();
-            var userDto = _mapper.Map<UserDetailDto>(createdUser);
-            return CreatedAtRoute("GetUserDetail", new { AcctNum = userDto.AcctNumber }, userDto);
+            var userToReturn = _mapper.Map<UserDetailDto>(userCreation);
+
+            return CreatedAtRoute("GetUserDetail", new { acctNum = userToReturn.AcctNumber }, userToReturn);
+
+        }
+
+        [HttpGet("WalletDetail")]
+        public async Task<ActionResult<WalletDto>> WalletDetail(string acctNumber)
+        {
+            var walletDetail = await _user.WalletDetailsAsync(acctNumber);
+            return Ok(walletDetail);
         }
     }
 }

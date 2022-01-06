@@ -17,9 +17,10 @@ namespace AlatTipMyself.Api.Services
         public TipWalletService(IMapper mapper, TipMySelfContext context)
         {
             _mapper = mapper;
-            _context = context;        }
+            _context = context;        
+        }
 
-        public async Task<Wallet> ActivateTipMyselfAsync(TipWalletDTO tipWallet, string acctNum)
+        public async Task<Wallet> ActivateTipMyselfAsync(WalletCreationDto tipWallet, string acctNum)
         {
             if(tipWallet == null)
             {
@@ -46,6 +47,6 @@ namespace AlatTipMyself.Api.Services
 
         }
 
-       
+     
     }
 }

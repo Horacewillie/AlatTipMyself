@@ -51,7 +51,7 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
                         await httpcontext.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = 400,
-                            Message = argException.Message
+                            Message = "Fields cannot be empty"
                         }.ToString());
                         break;
                     default:

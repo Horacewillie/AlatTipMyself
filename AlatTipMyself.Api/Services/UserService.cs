@@ -24,42 +24,26 @@ namespace AlatTipMyself.Api.Services
             _mapper = mapper;
         }
 
-        
-        
-
-        public async Task<UserDetail> CreateAccountAsync(CreateAccountDto createUser)
+        public async Task CreateAccountAsync(UserDetail userDetail)
         {
-            if (string.IsNullOrEmpty(createUser.Email) || string.IsNullOrEmpty(createUser.FirstName) || string.IsNullOrEmpty(createUser.TransactionPin) || string.IsNullOrEmpty(createUser.Password) || string.IsNullOrEmpty(createUser.FirstName))
+            if (string.IsNullOrEmpty(userDetail.FirstName) || string.IsNullOrEmpty(userDetail.LastName) || string.IsNullOrEmpty(userDetail.Email) || string.IsNullOrEmpty(userDetail.TransactionPin) || string.IsNullOrEmpty(userDetail.Password))
             {
-                throw new ArgumentNullException(nameof(createUser));
+                throw new ArgumentNullException("Field(s) cannot be empty");
             }
-
-            if (await _context.UserDetails.AnyAsync(x => x.Email == createUser.Email)) throw new ApplicationException("An account already exists with this email");
-
-            var user = _mapper.Map<UserDetail>(createUser);
-            var Pin = createUser.TransactionPin;
-            var Password = createUser.Password;
-
-            byte[] pinHash, pinSalt;
-            byte[] passwordHash, passwordSalt;
-
-            HelperMethods.CreatePinHash(Pin, out pinHash, out pinSalt);
-            HelperMethods.CreatePasswordHash(Password, out passwordHash, out passwordSalt);
-            user.PinHash = pinHash;
-            user.PinSalt = pinSalt;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            await _context.UserDetails.AddAsync(user);
-            return user;
+            var user = await _context.UserDetails.SingleOrDefaultAsync(x => x.Email == userDetail.Email);
+            if (user != null) throw new ApplicationException("Email already Exists");
+            userDetail.Password = HelperMethods.HashPassword(userDetail.Password);
+            userDetail.TransactionPin = HelperMethods.HashTransactionPin(userDetail.TransactionPin);
+            await _context.UserDetails.AddAsync(userDetail);
         }
 
-       
 
-        public async Task<UserDetail> GetUserDetail(string acctNum)
+
+        public async Task<UserDetail> GetUserDetailAsync(string acctNum)
         {
             if(acctNum == null)
             {
-                throw new ArgumentNullException(nameof(acctNum));
+                throw new ArgumentNullException("User doesn't exist");
             }
             return await _context.UserDetails.Where(c => c.AcctNumber == acctNum).FirstOrDefaultAsync();
         }
@@ -69,14 +53,25 @@ namespace AlatTipMyself.Api.Services
             return (await _context.SaveChangesAsync() >= 0);
         }
 
-        public async Task<UserDetail> UserLoginAsync(string email, string Password)
+        public async Task<UserDetail> UserLoginAsync(LoginParameter model)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(Password)) throw new ArgumentNullException("Fields cannot be empty!");
-           
-            var user = await _context.UserDetails.SingleOrDefaultAsync(x => x.Email == email);
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password)) throw new ArgumentNullException(nameof(model));
+            var user = await _context.UserDetails.SingleOrDefaultAsync(x => x.Email == model.Email);
             if (user == null) throw new ApplicationException("Incorrect Email");
-            if (!HelperMethods.VerifyPasswordHash(Password, user.PasswordHash, user.PasswordSalt).Result)throw new ApplicationException("Invalid Password");
+            bool isValid = HelperMethods.VerifyPassword(model.Password, user.Password);
+            if (!isValid) throw new ApplicationException("Incorrect Password!");
             return user;
+        }
+
+        public async Task<WalletDto> WalletDetailsAsync(string acctNumber)
+        {
+            var walletDetail = await _context.Wallets.FirstOrDefaultAsync(x => x.AcctNumber == acctNumber);
+            if (walletDetail == null)
+            {
+                throw new ApplicationException("No wallet for user");
+            }
+            var walletDetailDto = _mapper.Map<WalletDto>(walletDetail);
+            return walletDetailDto;
         }
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.DTO
 {
-    public class TipWalletDTO
+    public class WalletCreationDto
     {
         public bool TipStatus { get; set; } = false;
 

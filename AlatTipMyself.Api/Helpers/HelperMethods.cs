@@ -8,40 +8,20 @@ namespace AlatTipMyself.Api.Helpers
 {
     public static class HelperMethods
     {
-        public static void CreatePinHash(string pin, out byte[] pinHash, out byte[] pinSalt)
+        public static string HashPassword(string Password)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                pinSalt = hmac.Key;
-                pinHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(pin));
-            }
+            return BCrypt.Net.BCrypt.HashPassword(Password);
         }
 
-        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) 
+        public static string HashTransactionPin(string TransactionPin)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
+            return BCrypt.Net.BCrypt.HashPassword(TransactionPin);
         }
 
-        public static Task<bool> VerifyPasswordHash(string Password, byte[] passwordHash, byte[] passwordSalt) => Task.Run(() =>
+        public static bool VerifyPassword(string modelPassword, string userPassword)
         {
-            if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentNullException("Password");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            {
-                var computedPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(Password));
-                for (int i = 0; i < computedPasswordHash.Length; i++)
-                {
-                    if (computedPasswordHash[i] != passwordHash[i]) return false;
-
-                }
-            }
-
-            return true;
-        });
+            return BCrypt.Net.BCrypt.Verify(modelPassword, userPassword);
+        }
 
 
         public static  Task<string> GenerateAccountNumber() => Task.Run(() =>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.DTO
 {
-    public class CreateAccountDto
+    public class UserDetailCreationDto
     {       
         public string FirstName { get; set; }
         public string LastName { get; set; }    

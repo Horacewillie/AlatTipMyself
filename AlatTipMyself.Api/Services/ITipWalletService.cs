@@ -9,8 +9,9 @@ namespace AlatTipMyself.Api.Services
 {
    public  interface ITipWalletService
     {
-        Task <Wallet> ActivateTipMyselfAsync(TipWalletDTO tipWallet, string acctNum);
+        Task<Wallet> ActivateTipMyselfAsync(WalletCreationDto tipWallet, string acctNum);
 
-       
+        
+
     }
 }

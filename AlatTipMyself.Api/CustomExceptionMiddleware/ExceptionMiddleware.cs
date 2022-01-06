@@ -12,12 +12,12 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddleware> _logger;
+        //private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next) //ILogger<ExceptionMiddleware> logger
         {
             _next = next;
-            _logger = logger;
+            //_logger = logger;
         }
 
         //Invoke an invokeasync method that takes an httpcontext as params
@@ -35,7 +35,7 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
                 switch (ex)
                 {
                     case ApplicationException appException:
-                        _logger.LogError(appException.Message);
+                       // _logger.LogError(appException.Message);
                         httpcontext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         httpcontext.Response.ContentType = "application/json";
                         await httpcontext.Response.WriteAsync(new ErrorDetails()
@@ -45,7 +45,7 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
                         }.ToString());
                         break;
                     case ArgumentNullException argException:
-                        _logger.LogError(argException.Message);
+                        //_logger.LogError(argException.Message);
                         httpcontext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         httpcontext.Response.ContentType = "application/json";
                         await httpcontext.Response.WriteAsync(new ErrorDetails()
@@ -55,7 +55,7 @@ namespace AlatTipMyself.Api.CustomExceptionMiddleware
                         }.ToString());
                         break;
                     default:
-                        _logger.LogError(ex.Message);
+                        //_logger.LogError(ex.Message);
                         httpcontext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         httpcontext.Response.ContentType = "application/json";
                         await httpcontext.Response.WriteAsync(new ErrorDetails()

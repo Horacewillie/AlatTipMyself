@@ -55,7 +55,6 @@ namespace AlatTipMyself.Api.Controllers
             var userToReturn = _mapper.Map<UserDetailDto>(userCreation);
 
             return CreatedAtRoute("GetUserDetail", new { acctNum = userToReturn.AcctNumber }, userToReturn);
-
         }
 
         [HttpGet("WalletDetail")]

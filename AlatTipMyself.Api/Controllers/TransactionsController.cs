@@ -28,17 +28,16 @@ namespace AlatTipMyself.Api.Controllers
 
         [HttpPost]
         [Route("SendMoney")]
-        [ProducesResponseType(typeof(UserDetailDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(WalletHistoryDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> SendMoneyAsync(string FromAccount, [FromBody]SendMoneyParameter sendingDetails)
         {
             if (sendingDetails == null) return BadRequest(new { StatusCode = 400, Message = "Fields cannot be empty" });
             var ToAccount = sendingDetails.ToAccount;
             var TransactionPin = sendingDetails.TransactionPin;
             var Amount = sendingDetails.Amount;
-            var sourceAccount = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount, TransactionPin);
-            await _userService.SaveAsync();
-            var user = _mapper.Map<UserDetailDto>(sourceAccount);
-            return Ok(user);
+            var walletHistory = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount, TransactionPin);
+            var walletHistoryDto = _mapper.Map<WalletHistoryDto>(walletHistory);
+            return Ok(walletHistoryDto);
         }
 
         [HttpGet]

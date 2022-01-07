@@ -8,7 +8,7 @@ namespace AlatTipMyself.Api.Services
 {
     public interface ITransactionService
     {
-        public Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin);
+        public Task<WalletHistory> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin);
         public Task<IEnumerable<TransactionHistory>> GetAllTransactionsAsync(string AcctNumber);
         public Task<IEnumerable<WalletHistory>> GetAllWalletHistoriesAsync(string AcctNumber);
     }

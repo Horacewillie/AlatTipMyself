@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Helpers
@@ -21,6 +22,18 @@ namespace AlatTipMyself.Api.Helpers
         public static bool VerifyPassword(string modelPassword, string userPassword)
         {
             return BCrypt.Net.BCrypt.Verify(modelPassword, userPassword);
+        }
+
+        public static bool VerifyPin(string modelPin, string userPin)
+        {
+            return BCrypt.Net.BCrypt.Verify(modelPin, userPin);
+        }
+
+        public static bool VerifyEmail(string userEmail)
+        {
+            var isValid =Regex.IsMatch(userEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (isValid) return true;
+            return false;
         }
 
 

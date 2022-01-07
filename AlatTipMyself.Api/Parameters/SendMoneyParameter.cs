@@ -9,5 +9,6 @@ namespace AlatTipMyself.Api
     {
         public string ToAccount { get; set; }
         public decimal Amount { get; set; }
+        public string TransactionPin { get; set; }
     }
 }

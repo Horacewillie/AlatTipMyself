@@ -30,6 +30,7 @@ namespace AlatTipMyself.Api.Services
             {
                 throw new ArgumentNullException("Field(s) cannot be empty");
             }
+            if (!HelperMethods.VerifyEmail(userDetail.Email)) throw new ApplicationException("Incorrect Email");
             var user = await _context.UserDetails.SingleOrDefaultAsync(x => x.Email == userDetail.Email);
             if (user != null) throw new ApplicationException("Email already Exists");
             userDetail.Password = HelperMethods.HashPassword(userDetail.Password);
@@ -56,6 +57,7 @@ namespace AlatTipMyself.Api.Services
         public async Task<UserDetail> UserLoginAsync(LoginParameter model)
         {
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password)) throw new ArgumentNullException(nameof(model));
+            if (!HelperMethods.VerifyEmail(model.Email)) throw new ApplicationException("Incorrect Email Type");
             var user = await _context.UserDetails.SingleOrDefaultAsync(x => x.Email == model.Email);
             if (user == null) throw new ApplicationException("Incorrect Email");
             bool isValid = HelperMethods.VerifyPassword(model.Password, user.Password);

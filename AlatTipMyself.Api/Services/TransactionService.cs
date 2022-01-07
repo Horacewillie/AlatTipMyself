@@ -1,4 +1,5 @@
 ﻿using AlatTipMyself.Api.Data;
+using AlatTipMyself.Api.Helpers;
 using AlatTipMyself.Api.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -38,7 +39,7 @@ namespace AlatTipMyself.Api.Services
             );
         }
 
-        public async Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount)
+        public async Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin)
         {
             if (FromAccount == ToAccount) throw new ApplicationException("Sender and receiver account can not be the same");
             UserDetail sourceAccount;
@@ -53,9 +54,12 @@ namespace AlatTipMyself.Api.Services
 
             await Task.Run(() =>
             {
+
                 if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");
                 if (sourceAccount.AcctBalance >= Amount)
                 {
+                    var isValid = HelperMethods.VerifyPin(TransactionPin, sourceAccount.TransactionPin);
+                    if (!isValid) throw new ApplicationException("Incorrect Transfer Pin.");
                     sourceAccount.AcctBalance -= Amount;
                     destinationAccount.AcctBalance += Amount;
                     transactionHistory.TransactionStatus = TranStatus.Success;

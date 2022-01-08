@@ -24,7 +24,6 @@ namespace AlatTipMyself.Api.Controllers
         {
             _user = user;
             _mapper = mapper;
-            
         }
 
         [HttpPost("Login")]

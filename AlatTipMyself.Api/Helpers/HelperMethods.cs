@@ -13,7 +13,6 @@ namespace AlatTipMyself.Api.Helpers
         {
             return BCrypt.Net.BCrypt.HashPassword(Password);
         }
-
         public static string HashTransactionPin(string TransactionPin)
         {
             return BCrypt.Net.BCrypt.HashPassword(TransactionPin);

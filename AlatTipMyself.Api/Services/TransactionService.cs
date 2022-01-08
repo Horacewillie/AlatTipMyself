@@ -1,4 +1,5 @@
 ﻿using AlatTipMyself.Api.Data;
+using AlatTipMyself.Api.DTO;
 using AlatTipMyself.Api.Helpers;
 using AlatTipMyself.Api.Models;
 using Microsoft.Extensions.Logging;
@@ -71,7 +72,7 @@ namespace AlatTipMyself.Api.Services
 
                     if (userWallet is null)
                     {
-                        walletHistory.TipAmount = -1;
+                        walletHistory.TipAmount = -2;
                     }
                     else
                     {
@@ -116,5 +117,7 @@ namespace AlatTipMyself.Api.Services
             return walletHistory;
             
         }
+
+        
     }
 }

@@ -115,7 +115,6 @@ namespace AlatTipMyself.Api.Services
             }
             );
             return walletHistory;
-            
         }
 
         

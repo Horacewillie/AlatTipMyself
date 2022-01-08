@@ -63,5 +63,16 @@ namespace AlatTipMyself.Api.Controllers
             var walletDetail = await _user.WalletDetailsAsync(acctNumber);
             return Ok(walletDetail);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserDetailDto>>> UserDetails()
+        {
+            var userDetails = await _user.GetUserDetailsAsync();
+            var mappedDetails = _mapper.Map<IEnumerable<UserDetailDto>>(userDetails);
+
+            return Ok(mappedDetails);
+        }
+
+
     }
 }

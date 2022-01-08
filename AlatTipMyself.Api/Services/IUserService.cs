@@ -21,5 +21,7 @@ namespace AlatTipMyself.Api.Services
 
         Task<WalletDto> WalletDetailsAsync(string acctNumber);
 
+        Task<IEnumerable<UserDetail>> GetUserDetailsAsync();
+
     }
 }

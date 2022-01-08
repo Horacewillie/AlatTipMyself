@@ -1,4 +1,5 @@
 ﻿using AlatTipMyself.Api.Data;
+using AlatTipMyself.Api.DTO;
 using AlatTipMyself.Api.Helpers;
 using AlatTipMyself.Api.Models;
 using Microsoft.Extensions.Logging;
@@ -39,7 +40,7 @@ namespace AlatTipMyself.Api.Services
             );
         }
 
-        public async Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin)
+        public async Task<WalletHistory> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin)
         {
             if (FromAccount == ToAccount) throw new ApplicationException("Sender and receiver account can not be the same");
             UserDetail sourceAccount;
@@ -71,7 +72,7 @@ namespace AlatTipMyself.Api.Services
 
                     if (userWallet is null)
                     {
-
+                        walletHistory.TipAmount = -2;
                     }
                     else
                     {
@@ -87,7 +88,9 @@ namespace AlatTipMyself.Api.Services
                                 walletHistory.TransactionAmount = Amount;
                                 walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
                                 walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                                walletHistory.Date = DateTime.UtcNow;          
+                                walletHistory.Date = DateTime.UtcNow;
+
+                                _context.WalletHistories.Add(walletHistory);
                             }
                             else
                             {
@@ -97,12 +100,13 @@ namespace AlatTipMyself.Api.Services
                                 walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
                                 walletHistory.TipAmount = 0;
                                 walletHistory.Date = DateTime.UtcNow;                            
-                            }
-                            _context.WalletHistories.Add(walletHistory);
+                            }                         
+                        }
+                        else
+                        {
+                            walletHistory.TipAmount = -1;
                         }
                     }
-
-
                 }
                 else
                 {
@@ -110,8 +114,10 @@ namespace AlatTipMyself.Api.Services
                 }      
             }
             );
-            return sourceAccount;
+            return walletHistory;
             
         }
+
+        
     }
 }

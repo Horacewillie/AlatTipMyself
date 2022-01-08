@@ -49,6 +49,11 @@ namespace AlatTipMyself.Api.Services
             return await _context.UserDetails.Where(c => c.AcctNumber == acctNum).FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<UserDetail>> GetUserDetailsAsync()
+        {
+            return await _context.UserDetails.ToListAsync();
+        }
+
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
@@ -75,6 +80,8 @@ namespace AlatTipMyself.Api.Services
             var walletDetailDto = _mapper.Map<WalletDto>(walletDetail);
             return walletDetailDto;
         }
+
+        
 
     }
     

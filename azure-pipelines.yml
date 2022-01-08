@@ -39,4 +39,4 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-    # Just updating the Build process.
+    # Just updating the Build process. Still checking

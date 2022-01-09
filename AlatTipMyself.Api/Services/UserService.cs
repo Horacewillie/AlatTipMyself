@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUserService, IDisposable
     {
         private readonly TipMySelfContext _context;
         private readonly IMapper _mapper;
@@ -81,7 +81,21 @@ namespace AlatTipMyself.Api.Services
             return walletDetailDto;
         }
 
-        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose resources when needed
+            }
+        }
+
+
 
     }
     

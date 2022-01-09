@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlatTipMyself.Api.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransactionService : ITransactionService, IDisposable
     {
         private readonly TipMySelfContext _context;
 
@@ -117,6 +117,20 @@ namespace AlatTipMyself.Api.Services
             return walletHistory;
         }
 
-        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose resources when needed
+            }
+        }
+
+
     }
 }

@@ -37,6 +37,7 @@ namespace AlatTipMyself.Api.Controllers
             var Amount = sendingDetails.Amount;
             var walletHistory = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount, TransactionPin);
             var walletHistoryDto = _mapper.Map<WalletHistoryDto>(walletHistory);
+            await _userService.SaveAsync();
             return Ok(walletHistoryDto);
         }
 

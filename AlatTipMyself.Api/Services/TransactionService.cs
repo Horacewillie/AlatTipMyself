@@ -68,7 +68,7 @@ namespace AlatTipMyself.Api.Services
                     transactionHistory.TransactionDestinationAccount = ToAccount;
                     transactionHistory.TransactionAmount = Amount;
                     transactionHistory.TransactionDate = DateTime.UtcNow;
-                    _context.TransactionHistories.Add(transactionHistory);
+                    _context.TransactionHistories.AddAsync(transactionHistory);
 
                     if (userWallet is null)
                     {

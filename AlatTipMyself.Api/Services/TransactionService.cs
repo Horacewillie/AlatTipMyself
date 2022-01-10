@@ -42,6 +42,7 @@ namespace AlatTipMyself.Api.Services
 
         public async Task<WalletHistory> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount, string TransactionPin)
         {
+            
             if (FromAccount == ToAccount) throw new ApplicationException("Sender and receiver account can not be the same");
             UserDetail sourceAccount;
             UserDetail destinationAccount;
@@ -130,7 +131,5 @@ namespace AlatTipMyself.Api.Services
                 // dispose resources when needed
             }
         }
-
-
     }
 }

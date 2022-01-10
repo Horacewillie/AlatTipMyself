@@ -24,7 +24,7 @@ namespace AlatTipMyself.Api.Services
         {
             return await Task.Run(() =>
             {
-                IEnumerable<TransactionHistory> transactionHistories = _context.TransactionHistories.Where(x => x.TransactionSourceAccount == AcctNumber).ToList();
+                IEnumerable<TransactionHistory> transactionHistories = _context.TransactionHistories.Where(x => x.TransactionSourceAccount == AcctNumber).OrderByDescending(x => x.Id).ToList();
                 return transactionHistories;
             }
             );
@@ -34,7 +34,7 @@ namespace AlatTipMyself.Api.Services
         {
             return await Task.Run(() =>
             {
-                IEnumerable<WalletHistory> walletHistories = _context.WalletHistories.Where(x => x.AcctNumber == AcctNumber).ToList();
+                IEnumerable<WalletHistory> walletHistories = _context.WalletHistories.Where(x => x.AcctNumber == AcctNumber).OrderByDescending(x => x.WalletHistoryId).ToList();
                 return walletHistories;
             }
             );

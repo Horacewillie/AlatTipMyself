@@ -123,7 +123,6 @@ namespace AlatTipMyself.Api.Services
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

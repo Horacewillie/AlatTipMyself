@@ -62,8 +62,12 @@ namespace AlatTipMyself.Api.Services
                 {
                     var isValid = HelperMethods.VerifyPin(TransactionPin, sourceAccount.TransactionPin);
                     if (!isValid) throw new ApplicationException("Incorrect Transfer Pin.");
+
+                    if (Amount <= 0) throw new ApplicationException("Cannot send an amount less than or equal to zero");
+                   
                     sourceAccount.AcctBalance -= Amount;
                     destinationAccount.AcctBalance += Amount;
+
                     transactionHistory.TransactionStatus = TranStatus.Success;
                     transactionHistory.TransactionSourceAccount = FromAccount;
                     transactionHistory.TransactionDestinationAccount = ToAccount;

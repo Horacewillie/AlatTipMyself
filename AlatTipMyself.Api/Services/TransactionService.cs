@@ -41,21 +41,18 @@ namespace AlatTipMyself.Api.Services
         public async Task<UserDetail> SendMoneyAsync(string FromAccount, string ToAccount, decimal Amount)
         {
             if (FromAccount == ToAccount) throw new ApplicationException("Sender and receiver account can not be the same");
-            UserDetail sourceAccount;
-            UserDetail destinationAccount;
+           // UserDetail sourceAccount;
+           // UserDetail destinationAccount;          
             TransactionHistory transactionHistory = new TransactionHistory();
             WalletHistory walletHistory = new WalletHistory();
-
             Wallet userWallet = _context.Wallets.Where(x => x.AcctNumber == FromAccount).SingleOrDefault();
-
-            sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
-            destinationAccount = _context.UserDetails.Where(x => x.AcctNumber == ToAccount).FirstOrDefault();
-
+            // sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
+             var sourceAccount = _context.UserDetails.Where(x => x.AcctNumber == FromAccount).FirstOrDefault();
+             var destinationAccount = _context.UserDetails.Where(x => x.AcctNumber == ToAccount).FirstOrDefault();
+            
             await Task.Run(() =>
-            {
-                if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");
-                
-
+            {               
+                if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");                
                 if (sourceAccount.AcctBalance >= Amount)
                 {
                     sourceAccount.AcctBalance -= Amount;
@@ -67,10 +64,8 @@ namespace AlatTipMyself.Api.Services
                     transactionHistory.TransactionDate = DateTime.UtcNow;
                     _context.TransactionHistories.Add(transactionHistory);
                 }
-
                 if (userWallet is null)
                 {
-
                 }
                 else
                 {
@@ -92,6 +87,7 @@ namespace AlatTipMyself.Api.Services
                 }
             }
             );
+            
             return sourceAccount;
         }
     }

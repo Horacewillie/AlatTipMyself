@@ -34,9 +34,17 @@ namespace AlatTipMyself.Api.Controllers
             var Amount = sendDetails.Amount;
             var sourceAccount = await _transactionService.SendMoneyAsync(FromAccount, ToAccount, Amount);
             await _userService.SaveAsync();
+
+          //  return Content(sourceAccount.ToString());
             return Ok(sourceAccount);
+            
         }
 
+    /*   public Task SendMoneyAsync((string FromAccount, SendMoneyParameter sendMoneyParameter) p)
+      {
+            throw new NotImplementedException();
+        }
+  */ 
         [HttpGet]
         [Route("get-all-transactions")]
         public async Task<IActionResult> GetAllTransactionsAsync(string AcctNumber)

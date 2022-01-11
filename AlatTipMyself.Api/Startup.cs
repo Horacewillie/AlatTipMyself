@@ -31,6 +31,8 @@ namespace AlatTipMyself.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+           
             services.AddDbContext<TipMySelfContext>(options =>
             options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AlatTipMySelfDb2;Initial Catalog=AlatTipMySelf2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
             );

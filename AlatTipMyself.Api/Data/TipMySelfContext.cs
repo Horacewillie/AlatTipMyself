@@ -9,7 +9,18 @@ namespace AlatTipMyself.Api.Data
 {
     public class TipMySelfContext : DbContext
     {
+        public TipMySelfContext()
+        {
+        }
+        public static bool isMigration = true;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {           
+            if (isMigration)
+            {
+                optionsBuilder.UseSqlServer("Server = (localdb)\\MSSQLLocalDB; Database = AlatTipMySelfDb2; Initial Catalog = AlatTipMySelf2; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
+            }
+        }
         public TipMySelfContext(DbContextOptions<TipMySelfContext> options) : base(options)
         {
 

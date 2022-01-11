@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlatTipMyself.Api", "AlatTipMyself.Api\AlatTipMyself.Api.csproj", "{F15D8302-ECBC-4AED-8C93-9BCF165D87FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlatTipMyself.Api", "AlatTipMyself.Api\AlatTipMyself.Api.csproj", "{F15D8302-ECBC-4AED-8C93-9BCF165D87FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlatXtest", "AlatXtest\AlatXtest.csproj", "{9E1EAF0D-6338-43E0-95D9-E6131DF5BCE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F15D8302-ECBC-4AED-8C93-9BCF165D87FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15D8302-ECBC-4AED-8C93-9BCF165D87FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15D8302-ECBC-4AED-8C93-9BCF165D87FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1EAF0D-6338-43E0-95D9-E6131DF5BCE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1EAF0D-6338-43E0-95D9-E6131DF5BCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1EAF0D-6338-43E0-95D9-E6131DF5BCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1EAF0D-6338-43E0-95D9-E6131DF5BCE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

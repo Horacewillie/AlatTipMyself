@@ -103,7 +103,7 @@ namespace AlatTipMyself.Api.Services
                                 walletHistory.WalletId = userWallet.WalletId;
                                 walletHistory.TransactionAmount = Amount;
                                 walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
-                                walletHistory.TipAmount = 0;
+                                walletHistory.TipAmount = -3;
                                 walletHistory.Date = DateTime.UtcNow;                            
                             }                         
                         }

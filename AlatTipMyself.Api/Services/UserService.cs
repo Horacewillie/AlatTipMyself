@@ -44,7 +44,7 @@ namespace AlatTipMyself.Api.Services
         {
             if(acctNum == null)
             {
-                throw new ArgumentNullException("User doesn't exist");
+                throw new ArgumentNullException("AccountNumber can not be null");
             }
             return await _context.UserDetails.Where(c => c.AcctNumber == acctNum).FirstOrDefaultAsync();
         }

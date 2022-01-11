@@ -40,6 +40,7 @@ namespace AlatTipMyself.Api.Controllers
         public async Task<IActionResult> UserDetails (string acctNum)
         {
             var userDetails = await _user.GetUserDetailAsync(acctNum);
+            if (userDetails is null) return NotFound(new { StatusCode = 404, Message = "Account Number not found." });
             var userDto = _mapper.Map<UserDetailDto>(userDetails);
             return Ok(userDto);
         }

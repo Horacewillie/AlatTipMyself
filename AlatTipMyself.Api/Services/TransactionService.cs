@@ -57,7 +57,7 @@ namespace AlatTipMyself.Api.Services
             await Task.Run(() =>
             {
 
-                if (sourceAccount == null || destinationAccount == null) throw new ArgumentNullException("Account does not exist");
+                 if(destinationAccount == null) throw new ApplicationException("Destination Account does not exist");
                 if (sourceAccount.AcctBalance >= Amount)
                 {
                     var isValid = HelperMethods.VerifyPin(TransactionPin, sourceAccount.TransactionPin);

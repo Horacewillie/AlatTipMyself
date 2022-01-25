@@ -72,7 +72,7 @@ namespace AlatTipMyself.Api.Services
                     transactionHistory.TransactionSourceAccount = FromAccount;
                     transactionHistory.TransactionDestinationAccount = ToAccount;
                     transactionHistory.TransactionAmount = Amount;
-                    transactionHistory.TransactionDate = DateTime.UtcNow;
+                    transactionHistory.TransactionDate = DateTime.UtcNow.ToLocalTime();
                     _context.TransactionHistories.AddAsync(transactionHistory);
 
                     if (userWallet is null)
@@ -93,7 +93,7 @@ namespace AlatTipMyself.Api.Services
                                 walletHistory.TransactionAmount = Amount;
                                 walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
                                 walletHistory.TipAmount = (Convert.ToDecimal(userWallet.TipPercent)) / 100 * Amount;
-                                walletHistory.Date = DateTime.UtcNow;
+                                walletHistory.Date = DateTime.UtcNow.ToLocalTime();
 
                                 _context.WalletHistories.Add(walletHistory);
                             }
@@ -104,7 +104,7 @@ namespace AlatTipMyself.Api.Services
                                 walletHistory.TransactionAmount = Amount;
                                 walletHistory.TipPercent = Convert.ToInt32(userWallet.TipPercent);
                                 walletHistory.TipAmount = -3;
-                                walletHistory.Date = DateTime.UtcNow;                            
+                                walletHistory.Date = DateTime.UtcNow.ToLocalTime();                            
                             }                         
                         }
                         else
